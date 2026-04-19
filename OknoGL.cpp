@@ -11,7 +11,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	POINT rozmiarOkna = { 800, 600 };
 	if (!okno.Inicjuj(hInstance, polozenieOkna, rozmiarOkna))
 	{
-		MessageBox(NULL, "Inicjacja okna nie powiodla siê",
+		MessageBox(NULL, "Inicjacja okna nie powiodla siï¿½",
 			"Aplikacja OpenGL", MB_OK | MB_ICONERROR);
 		return EXIT_FAILURE;
 	}
@@ -27,17 +27,17 @@ LRESULT Okno::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
-	case WM_DESTROY://zamykanie okna => konczenie aplikacji
+	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
-	case WM_SIZE: // Zmiana rozmiaru okna
+	case WM_SIZE: 
 		RECT rect;
 		GetClientRect(hWnd, &rect);
 		szerokoscObszaruUzytkownika = rect.right - rect.left;
 		wysokoscObszaruUzytkownika = rect.bottom - rect.top;
 		break;
 
-	default: // automatyczne przetwarzanie komunikatów 
+	default: 
 		return (DefWindowProc(hWnd, message, wParam, lParam));
 	}
 
@@ -50,29 +50,26 @@ bool Okno::Inicjuj(HINSTANCE uchwytAplikacji, POINT polozenieOkna, POINT rozmiar
 	char nazwaOkna[] = "Aplikacja OpenGL";
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(wc);
-	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC; // styl okna
-	wc.lpfnWndProc = (WNDPROC)::WndProc; // procedura okna
-	wc.cbClsExtra = 0; // dodatkowe bajty za rezerwowane za klas¹ okna
-	wc.cbWndExtra = 0; // dodatkowe bajty zarezerwowane za instancj¹ okna
-	wc.hInstance = uchwytAplikacji; // instancja aplikacji 
-	wc.hIcon = LoadIcon(uchwytAplikacji, MAKEINTRESOURCE(IDI_ICON1)); //uchwyt ikony 
-	wc.hIconSm = LoadIcon(uchwytAplikacji, MAKEINTRESOURCE(IDI_ICON1)); //uchwyt ikony 
+	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC; 
+	wc.lpfnWndProc = (WNDPROC)::WndProc; 
+	wc.cbClsExtra = 0; 
+	wc.cbWndExtra = 0; 
+	wc.hInstance = uchwytAplikacji; 
+	wc.hIcon = LoadIcon(uchwytAplikacji, MAKEINTRESOURCE(IDI_ICON1)); 
+	wc.hIconSm = LoadIcon(uchwytAplikacji, MAKEINTRESOURCE(IDI_ICON1)); 
 
 
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW); // uchwyt kursora
-	wc.hbrBackground = NULL; // uchwyt pêdzla t³a 
-	wc.lpszMenuName = NULL; // nazwa menu
-	wc.lpszClassName = nazwaOkna; // nazwa klasy okna
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW); 
+	wc.hbrBackground = NULL; 
+	wc.lpszMenuName = NULL; 
+	wc.lpszClassName = nazwaOkna; 
 
-	// Rejestracja klasy okna
 	if (RegisterClassEx(&wc) == 0) return false;
 
-	//ustawienia dla okna
 	DWORD stylOkna = WS_OVERLAPPEDWINDOW;
 	
 	if (trybPelnoekranowy)
 	{
-		//ustawienia dla trybu pe³noekranowego
 		stylOkna = WS_POPUP;
 		polozenieOkna.x = 0;
 		polozenieOkna.y = 0;
@@ -91,22 +88,20 @@ bool Okno::Inicjuj(HINSTANCE uchwytAplikacji, POINT polozenieOkna, POINT rozmiar
 		}
 	}
 
-	// Tworzenie okna
 	uchwytOkna = CreateWindow(
-		nazwaOkna, // nazwa klasy okna
-		nazwaOkna, // nazwa okna
-		stylOkna, // styl okna
-		polozenieOkna.x, polozenieOkna.y, // po³o¿enie okna(x, y)
-		rozmiarOkna.x, rozmiarOkna.y, // rozmiar okna szerokoœæ, wysokoœæ)
-		NULL, // uchwyt okna nadrzêdnego(parent)
-		NULL, // uchwyt menu
-		uchwytAplikacji, // uchwyt instancji aplikacji
-		NULL // parametr komunikatu informuj¹cego o utworzeniu okna
+		nazwaOkna, 
+		nazwaOkna, 
+		stylOkna,
+		polozenieOkna.x, polozenieOkna.y, 
+		rozmiarOkna.x, rozmiarOkna.y, 
+		NULL, 
+		NULL, 
+		uchwytAplikacji, 
+		NULL 
 		);
 
 	if (uchwytOkna == NULL) return false;
 
-	// Pokazanie i aktualizacja okna
 	ShowWindow(uchwytOkna, SW_SHOW);
 	UpdateWindow(uchwytOkna);
 
@@ -116,19 +111,18 @@ bool Okno::Inicjuj(HINSTANCE uchwytAplikacji, POINT polozenieOkna, POINT rozmiar
 bool Okno::ZmianaRozdzielczosci(long szerokosc, 
 	long wysokosc, long glebiaKolorow) const
 {
-	DEVMODE dmScreenSettings; //struktura trybu wyœwietlania
-	memset(&dmScreenSettings, 0, sizeof(dmScreenSettings)); //czyszczenie pamiêci
-		dmScreenSettings.dmSize = sizeof(dmScreenSettings); //rozmiar struktury
-		dmScreenSettings.dmPelsWidth = szerokosc; //nowa szerokoœæ ekranu
-		dmScreenSettings.dmPelsHeight = wysokosc; //nowa wysokoœæ ekranu
-		dmScreenSettings.dmBitsPerPel = glebiaKolorow; //liczba bitów na piksel
+	DEVMODE dmScreenSettings; 
+	memset(&dmScreenSettings, 0, sizeof(dmScreenSettings)); 
+		dmScreenSettings.dmSize = sizeof(dmScreenSettings); 
+		dmScreenSettings.dmPelsWidth = szerokosc; 
+		dmScreenSettings.dmPelsHeight = wysokosc; 
+		dmScreenSettings.dmBitsPerPel = glebiaKolorow; 
 		dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 	return ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) == DISP_CHANGE_SUCCESSFUL;
 }
 
 WPARAM Okno::Uruchom()
 {
-	// Pêtla g³ówna - obs³uga komunikatów
 	MSG msg;
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
@@ -147,12 +141,12 @@ bool OknoGL::UstalFormatPikseli(HDC uchwytDC) const
 	ZeroMemory(&opisFormatuPikseli, sizeof(opisFormatuPikseli));
 	opisFormatuPikseli.nVersion = 1;
 	opisFormatuPikseli.dwFlags = PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW | PFD_DOUBLEBUFFER;
-				// w oknie, podwójne buforowanie
-	opisFormatuPikseli.iPixelType = PFD_TYPE_RGBA; // typ koloru RGB z kana³em alfa
+				
+	opisFormatuPikseli.iPixelType = PFD_TYPE_RGBA; 
 	opisFormatuPikseli.cColorBits = 32;
-				// jakoœæ kolorów 4 bajty(po bajcie na ka¿dy kana³)
+				
 	opisFormatuPikseli.cDepthBits = 32;
-				// g³êbokoœæ bufora g³êbi(z - buffer)
+				
 	opisFormatuPikseli.iLayerType = PFD_MAIN_PLANE;
 	int formatPikseli = ChoosePixelFormat(uchwytDC, &opisFormatuPikseli);
 	if (formatPikseli == 0) return false;
@@ -166,14 +160,14 @@ bool OknoGL::InicjujWGL(HWND uchwytOkna)
 	if (!UstalFormatPikseli(uchwytDC)) return false;
 
 	HGLRC uchwytTymczasowegoRC = wglCreateContext(uchwytDC); 
-					//tworzenie tymczasowego kontekstu renderowania (tradycyjnie)
+					
 	if (uchwytTymczasowegoRC == NULL) return false;
 	if (!wglMakeCurrent(uchwytDC, uchwytTymczasowegoRC)) return false;
 
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{
-		MessageBox(NULL, "Inicjacja biblioteki GLEW nie powiod³a siê", "Aplikacja OpenGL", MB_OK | MB_ICONERROR);
+		MessageBox(NULL, "Inicjacja biblioteki GLEW nie powiodï¿½a siï¿½", "Aplikacja OpenGL", MB_OK | MB_ICONERROR);
 			return false;
 	}
 
@@ -184,7 +178,7 @@ bool OknoGL::InicjujWGL(HWND uchwytOkna)
 	glGetIntegerv(GL_MINOR_VERSION, &minor);
 	if (major<major_min || (major == major_min && minor<minor_min))
 	{
-		MessageBox(NULL, "Wersja OpenGL jest niewystarczaj¹ca",
+		MessageBox(NULL, "Wersja OpenGL jest niewystarczajï¿½ca",
 			"Aplikacja OpenGL", MB_OK | MB_ICONERROR);
 		return false;
 	}
@@ -220,32 +214,31 @@ LRESULT OknoGL::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	long wynik = Okno::WndProc(hWnd, message, wParam, lParam);
 	switch (message)
 	{
-	case WM_CREATE: // Utworzenie okna
-		// zmienna uchwytOkna nie jest jeszcze zainicjowana
+	case WM_CREATE: 
 		if (!InicjujWGL(hWnd))
 		{
-			MessageBox(NULL, "Pobranie kontekstu renderowania nie powiod³o siê", 
+			MessageBox(NULL, "Pobranie kontekstu renderowania nie powiodï¿½o siï¿½", 
 				"Aplikacja OpenGL", MB_OK | MB_ICONERROR);
 			return EXIT_FAILURE;
 		}
 		idProgramuShaderow = PrzygotujShadery("Basic.vsh", "Basic.fsh", false);
 		if (idProgramuShaderow == NULL)
 		{
-			MessageBox(NULL, "Przygotowanie shaderów nie powiod³o siê", "Aplikacja OpenGL", MB_OK | MB_ICONERROR);
+			MessageBox(NULL, "Przygotowanie shaderï¿½w nie powiodï¿½o siï¿½", "Aplikacja OpenGL", MB_OK | MB_ICONERROR);
 				exit(EXIT_FAILURE);
 		}
 		UmiescInformacjeNaPaskuTytulu(hWnd);
-		InicjujBuforWerteksów();
+		InicjujBuforWerteksï¿½w();
 		UstawienieSceny();
 		break;
-	case WM_DESTROY: // Zamkniêcie okna
-		UsuñBuforWerteksów();
+	case WM_DESTROY: 
+		Usuï¿½BuforWerteksï¿½w();
 		UsunWGL();
 		break;
-	case WM_SIZE: //Zmiana rozmiaru okna
+	case WM_SIZE: 
 		UstawienieSceny();
 		break;
-	case WM_PAINT: //Okno wymaga odrysowania
+	case WM_PAINT:
 		RysujScene();
 		ValidateRect(hWnd, NULL);
 		break;
@@ -275,12 +268,11 @@ void OknoGL::UmiescInformacjeNaPaskuTytulu(HWND uchwytOkna)
 
 // ------------------------ OpenGL
 
-void OknoGL::UstawienieSceny(bool rzutowanieIzometryczne) // wartoœæ domyœlna false
+void OknoGL::UstawienieSceny(bool rzutowanieIzometryczne) 
 {
 	glViewport(0, 0, szerokoscObszaruUzytkownika, wysokoscObszaruUzytkownika);
-	/*// okno OpenGL = wnêtrze formy(domyœlnie)
-	// ustawienie punktu projekcji
-	glMatrixMode(GL_PROJECTION); // prze³¹czenie na macierz projekcji
+	/*// okno OpenGL = wnï¿½trze formy(domyï¿½lnie)
+	glMatrixMode(GL_PROJECTION); 
 	glLoadIdentity();
 
 	float wsp = wysokoscObszaruUzytkownika / (float)szerokoscObszaruUzytkownika;
@@ -291,14 +283,14 @@ void OknoGL::UstawienieSceny(bool rzutowanieIzometryczne) // wartoœæ domyœlna fa
 	else
 		glOrtho(-1.0f, 1.0f, wsp *-1.0f, wsp*1.0f, 1.0f, 10.0f);
 
-	glMatrixMode(GL_MODELVIEW); // powrót do macierzy widoku modelu
+	glMatrixMode(GL_MODELVIEW); // powrï¿½t do macierzy widoku modelu
 	glEnable(GL_DEPTH_TEST);
 	//z-buffer aktywny = ukrywanie niewidocznych powierzchni
 
-	glFrontFace(GL_CCW); //odtworzenie ustawieñ domyœlnych
+	glFrontFace(GL_CCW); //odtworzenie ustawieï¿½ domyï¿½lnych
 	glPolygonMode(GL_FRONT, GL_FILL);
 	glPolygonMode(GL_BACK, GL_LINE);
-	glCullFace(GL_BACK); //odtworzenie ustawieñ domyœlnych
+	glCullFace(GL_BACK); //odtworzenie ustawieï¿½ domyï¿½lnych
 	glEnable(GL_CULL_FACE);
 
 	GLint parametrUwzglednijKolorWerteksu = glGetUniformLocation(idProgramuShaderow, "UwzglednijKolorWerteksu");
@@ -322,9 +314,9 @@ void OknoGL::UstawienieSceny(bool rzutowanieIzometryczne) // wartoœæ domyœlna fa
 
 	glUniform4fv(parametrKolor, 1, kolor);
 
-	GLint parametrMacierzŒwiata = glGetUniformLocation(idProgramuShaderow, "macierzSwiata");
+	GLint parametrMacierzï¿½wiata = glGetUniformLocation(idProgramuShaderow, "macierzSwiata");
 
-	float macierzŒwiata[16] =
+	float macierzï¿½wiata[16] =
 
 	{
 
@@ -338,7 +330,7 @@ void OknoGL::UstawienieSceny(bool rzutowanieIzometryczne) // wartoœæ domyœlna fa
 
 	};
 
-	glUniformMatrix4fv(parametrMacierzŒwiata, 1, true, macierzŒwiata);
+	glUniformMatrix4fv(parametrMacierzï¿½wiata, 1, true, macierzï¿½wiata);
 
 	GLint parametrMacierzWidoku = glGetUniformLocation(idProgramuShaderow, "macierzWidoku");
 
@@ -381,75 +373,72 @@ void OknoGL::UstawienieSceny(bool rzutowanieIzometryczne) // wartoœæ domyœlna fa
 
 void OknoGL::RysujScene()
 {
-	// Przygotowanie buforów
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  //czyœci bufory
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
 
-	glLoadIdentity();    //macierz model-widok = macierz jednostkowa
+	glLoadIdentity();    
 	glTranslatef(0.0f, 0.0f, -3.0f);  
 
-	//Rysowanie trójk¹ta
 
 	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, 0);
 
-	//z bufora na ekran
 	SwapBuffers(uchwytDC);
 }
 
 
-void OknoGL::InicjujBuforWerteksów()
+void OknoGL::InicjujBuforWerteksï¿½w()
 {
 	const float x0 = 1.0f;
 	const float y0 = 1.0f;
 	const float z0 = 1.0f;
 	Werteks werteksy[] =
 	{
-		Werteks(-x0, -y0, 0.0f, 1, 1, 0, 1), //dolny lewy
-		Werteks(x0, -y0, 0.0f, 1, 0, 1, 1), //dolny prawy
-		Werteks(0, y0, 0.0f, 0, 1, 1, 1), //górny
-		Werteks(-x0, y0, 0.0f, 0, 1, 1, 1), //górny lewy
-		Werteks(x0, y0, 0.0f, 1, 1, 1, 1) //górny prawy
+		Werteks(-x0, -y0, 0.0f, 1, 1, 0, 1), 
+		Werteks(x0, -y0, 0.0f, 1, 0, 1, 1), 
+		Werteks(0, y0, 0.0f, 0, 1, 1, 1), 
+		Werteks(-x0, y0, 0.0f, 0, 1, 1, 1),
+		Werteks(x0, y0, 0.0f, 1, 1, 1, 1) 
 	};
 	//-----------------------
 	//Vertex Array Object (VAO)
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	//Vertex Buffer Object (VBO)
-	glGenBuffers(3, &vbo[0]); //tworzy bufory
+	glGenBuffers(3, &vbo[0]); 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(werteksy), werteksy,
 		GL_STATIC_DRAW);
-	GLuint atrybutPo³o¿enie = 0;
+	GLuint atrybutPoï¿½oï¿½enie = 0;
 	GLuint atrybutKolor = 3;
-	glVertexAttribPointer(atrybutPo³o¿enie,
-		Werteks::liczbaWspó³rzêdnychPo³o¿enia,
+	glVertexAttribPointer(atrybutPoï¿½oï¿½enie,
+		Werteks::liczbaWspï¿½rzï¿½dnychPoï¿½oï¿½enia,
 		GL_FLOAT, GL_FALSE, Werteks::rozmiarWerteksu, 0);
-	glEnableVertexAttribArray(atrybutPo³o¿enie);
+	glEnableVertexAttribArray(atrybutPoï¿½oï¿½enie);
 	glVertexAttribPointer(atrybutKolor,
-		Werteks::liczbaSk³adowychKoloru,
+		Werteks::liczbaSkï¿½adowychKoloru,
 		GL_FLOAT, GL_FALSE, Werteks::rozmiarWerteksu,
-		(const GLvoid*) Werteks::rozmiarWektoraPo³o¿enia);
+		(const GLvoid*) Werteks::rozmiarWektoraPoï¿½oï¿½enia);
 	glEnableVertexAttribArray(atrybutKolor);
 	glBindBuffer(GL_ARRAY_BUFFER, NULL);
 	//-----------------------
 
-	//GLubyte indeksy[] = { 0, 3, 1, 4 };	//trójk¹ty ustawione ty³em
-	GLubyte indeksy[] = { 0, 1, 3, 4 };		//trójk¹ty ustawione przodem
+	//GLubyte indeksy[] = { 0, 3, 1, 4 };	
+	GLubyte indeksy[] = { 0, 1, 3, 4 };		
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[2]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeksy),
 		indeksy, GL_STATIC_DRAW);
 }
 
 
-void OknoGL::UsuñBuforWerteksów()
+void OknoGL::Usuï¿½BuforWerteksï¿½w()
 {
 	glDeleteBuffers(3, vbo);
 	glDeleteVertexArrays(1, &vao);
 }
 
 #pragma region Shadery
-void Poka¿Komunikat(char* tekst, UINT typ = 0)
+void Pokaï¿½Komunikat(char* tekst, UINT typ = 0)
 {
-	MessageBoxA(NULL, tekst, "Aplikacja OpenGL – Kompilacja shaderów", MB_OK | typ);
+	MessageBoxA(NULL, tekst, "Aplikacja OpenGL ï¿½ Kompilacja shaderï¿½w", MB_OK | typ);
 }
 
 #include <fstream>
@@ -476,28 +465,23 @@ GLuint OknoGL::KompilujShader(const char* nazwaPliku, GLenum typ, bool trybDebug
 {
 	const int maksymalnaWielkoscKodu = 65535;
 
-	//Wczytywanie kodu z pliku
 	char kodShadera[maksymalnaWielkoscKodu] = "";
 	if (CzytajPlikTxt(nazwaPliku, maksymalnaWielkoscKodu, kodShadera) == NULL)
 	{
-		Poka¿Komunikat("Brak lub niemo¿liwe odczytanie pliku shadera", MB_ICONERROR);
+		Pokaï¿½Komunikat("Brak lub niemoï¿½liwe odczytanie pliku shadera", MB_ICONERROR);
 		return NULL;
 	}
-	else if (trybDebugowania) Poka¿Komunikat(kodShadera);
+	else if (trybDebugowania) Pokaï¿½Komunikat(kodShadera);
 
-	//Tworzenie obiektu shadera
 	GLuint idShadera = glCreateShader(typ);
 	if (idShadera == NULL) return NULL;
 
-	//Dostarczanie zrodla do obiektu shadera
 	const GLchar* zrodlo[1];
 	zrodlo[0] = kodShadera;
 	glShaderSource(idShadera, 1, zrodlo, NULL);
 
-	//Kompilacja shadera
 	glCompileShader(idShadera);
 
-	//Weryfikacje kompilacji
 	GLint powodzenie;
 	glGetShaderiv(idShadera, GL_COMPILE_STATUS, &powodzenie);
 	if (!powodzenie)
@@ -505,47 +489,41 @@ GLuint OknoGL::KompilujShader(const char* nazwaPliku, GLenum typ, bool trybDebug
 		const int maxInfoLogSize = 2048;
 		GLchar infoLog[maxInfoLogSize];
 		glGetShaderInfoLog(idShadera, maxInfoLogSize, NULL, infoLog);
-		char komunikat[maxInfoLogSize + 64] = "Uwaga! Kompilacja shadera nie powiod³a siê:\n";
+		char komunikat[maxInfoLogSize + 64] = "Uwaga! Kompilacja shadera nie powiodï¿½a siï¿½:\n";
 		strcat_s(komunikat, (char*)infoLog);
-		Poka¿Komunikat(komunikat, MB_ICONERROR);
+		Pokaï¿½Komunikat(komunikat, MB_ICONERROR);
 		return NULL;
 	}
-	else if (trybDebugowania) Poka¿Komunikat("Kompilacja shadera zakoñczy³a siê sukcesem", MB_ICONINFORMATION);
+	else if (trybDebugowania) Pokaï¿½Komunikat("Kompilacja shadera zakoï¿½czyï¿½a siï¿½ sukcesem", MB_ICONINFORMATION);
 
 	return idShadera;
 }
 
 unsigned int OknoGL::PrzygotujShadery(const char* vsNazwaPliku, const char* fsNazwaPliku, bool trybDebugowania)
 {
-	//Kompilacja shadera werteksów
-	GLuint idShaderaWerteksów = KompilujShader(vsNazwaPliku, GL_VERTEX_SHADER, trybDebugowania);
-	if (idShaderaWerteksów == NULL)
+	GLuint idShaderaWerteksï¿½w = KompilujShader(vsNazwaPliku, GL_VERTEX_SHADER, trybDebugowania);
+	if (idShaderaWerteksï¿½w == NULL)
 	{
-		Poka¿Komunikat("Kompilacja shadera werteksów nie powiod³a siê", MB_ICONERROR);
+		Pokaï¿½Komunikat("Kompilacja shadera werteksï¿½w nie powiodï¿½a siï¿½", MB_ICONERROR);
 		return NULL;
 	}
-	else if (trybDebugowania) Poka¿Komunikat("Kompilacja shadera werteksów zakoñczy³a siê sukcesem", MB_ICONINFORMATION);
+	else if (trybDebugowania) Pokaï¿½Komunikat("Kompilacja shadera werteksï¿½w zakoï¿½czyï¿½a siï¿½ sukcesem", MB_ICONINFORMATION);
 
-	//Kompilacja shadera fragmentów
-	GLuint idShaderaFragmentów = KompilujShader(fsNazwaPliku, GL_FRAGMENT_SHADER, trybDebugowania);
-	if (idShaderaFragmentów == NULL)
+	GLuint idShaderaFragmentï¿½w = KompilujShader(fsNazwaPliku, GL_FRAGMENT_SHADER, trybDebugowania);
+	if (idShaderaFragmentï¿½w == NULL)
 	{
-		Poka¿Komunikat("Kompilacja shadera fragmentów nie powiod³a siê", MB_ICONERROR);
+		Pokaï¿½Komunikat("Kompilacja shadera fragmentï¿½w nie powiodï¿½a siï¿½", MB_ICONERROR);
 		return NULL;
 	}
-	else if (trybDebugowania) Poka¿Komunikat("Kompilacja shadera fragmentów zakoñczy³a siê sukcesem", MB_ICONINFORMATION);
+	else if (trybDebugowania) Pokaï¿½Komunikat("Kompilacja shadera fragmentï¿½w zakoï¿½czyï¿½a siï¿½ sukcesem", MB_ICONINFORMATION);
 
-	//Tworzenie obiektu programu
 	GLuint idProgramu = glCreateProgram();
 
-	//Przylaczanie shaderow
-	glAttachShader(idProgramu, idShaderaWerteksów);
-	glAttachShader(idProgramu, idShaderaFragmentów);
+	glAttachShader(idProgramu, idShaderaWerteksï¿½w);
+	glAttachShader(idProgramu, idShaderaFragmentï¿½w);
 
-	//Linkowanie
 	glLinkProgram(idProgramu);
 
-	//Weryfikacja linkowania
 	GLint powodzenie;
 	glGetProgramiv(idProgramu, GL_LINK_STATUS, &powodzenie);
 	if (!powodzenie)
@@ -553,35 +531,32 @@ unsigned int OknoGL::PrzygotujShadery(const char* vsNazwaPliku, const char* fsNa
 		const int maxInfoLogSize = 2048;
 		GLchar infoLog[maxInfoLogSize];
 		glGetProgramInfoLog(idProgramu, maxInfoLogSize, NULL, infoLog);
-		char komunikat[maxInfoLogSize + 64] = "Uwaga! Linkowanie programu shaderów nie powiod³o siê:\n";
+		char komunikat[maxInfoLogSize + 64] = "Uwaga! Linkowanie programu shaderï¿½w nie powiodï¿½o siï¿½:\n";
 		strcat_s(komunikat, (char*)infoLog);
-		Poka¿Komunikat(komunikat, MB_ICONERROR);
+		Pokaï¿½Komunikat(komunikat, MB_ICONERROR);
 		return NULL;
 	}
-	else if (trybDebugowania) Poka¿Komunikat("Linkowanie programu shaderów powiod³o siê", MB_ICONINFORMATION);
+	else if (trybDebugowania) Pokaï¿½Komunikat("Linkowanie programu shaderï¿½w powiodï¿½o siï¿½", MB_ICONINFORMATION);
 
 	glValidateProgram(idProgramu);
 
-	//Walidacja programu
 	glGetProgramiv(idProgramu, GL_VALIDATE_STATUS, &powodzenie);
 	if (!powodzenie)
 	{
 		const int maxInfoLogSize = 2048;
 		GLchar infoLog[maxInfoLogSize];
 		glGetProgramInfoLog(idProgramu, maxInfoLogSize, NULL, infoLog);
-		char komunikat[maxInfoLogSize + 64] = "Uwaga! Walidacja programu shaderów nie powiod³a siê:\n";
+		char komunikat[maxInfoLogSize + 64] = "Uwaga! Walidacja programu shaderï¿½w nie powiodï¿½a siï¿½:\n";
 		strcat_s(komunikat, (char*)infoLog);
-		Poka¿Komunikat(komunikat, MB_ICONERROR);
+		Pokaï¿½Komunikat(komunikat, MB_ICONERROR);
 		return NULL;
 	}
-	else if (trybDebugowania) Poka¿Komunikat("Walidacja programu shaderów powiod³a siê", MB_ICONINFORMATION);
+	else if (trybDebugowania) Pokaï¿½Komunikat("Walidacja programu shaderï¿½w powiodï¿½a siï¿½", MB_ICONINFORMATION);
 
-	//Uzycie programu
 	glUseProgram(idProgramu);
 
-	//Usuwanie niepotrzebnych obiektow shadera
-	glDeleteShader(idShaderaWerteksów);
-	glDeleteShader(idShaderaFragmentów);
+	glDeleteShader(idShaderaWerteksï¿½w);
+	glDeleteShader(idShaderaFragmentï¿½w);
 
 	return idProgramu;
 }

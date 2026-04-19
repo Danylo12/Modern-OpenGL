@@ -1,15 +1,15 @@
 struct Werteks
 {
-	float x, y, z; //wspó³rzêdne po³ozenia
-	float r, g, b, a; //sk³adowe koloru
-	static const int liczbaWspó³rzêdnychPo³o¿enia = 3;
-	static const int rozmiarWektoraPo³o¿enia =
-		liczbaWspó³rzêdnychPo³o¿enia * sizeof(float);
-	static const int liczbaSk³adowychKoloru = 4;
+	float x, y, z; 
+	float r, g, b, a; 
+	static const int liczbaWspï¿½rzï¿½dnychPoï¿½oï¿½enia = 3;
+	static const int rozmiarWektoraPoï¿½oï¿½enia =
+		liczbaWspï¿½rzï¿½dnychPoï¿½oï¿½enia * sizeof(float);
+	static const int liczbaSkï¿½adowychKoloru = 4;
 	static const int rozmiarWektoraKoloru =
-		liczbaSk³adowychKoloru * sizeof(float);
+		liczbaSkï¿½adowychKoloru * sizeof(float);
 	static const int rozmiarWerteksu =
-		rozmiarWektoraPo³o¿enia + rozmiarWektoraKoloru;
+		rozmiarWektoraPoï¿½oï¿½enia + rozmiarWektoraKoloru;
 	Werteks(float x, float y, float z,
 		float r, float g, float b, float a = 1.0f)
 		: x(x), y(y), z(z),

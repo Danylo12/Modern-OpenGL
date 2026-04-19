@@ -25,8 +25,8 @@ public:
 class OknoGL : public Okno
 {
 private:
-	HGLRC uchwytRC; // uchwyt kontekstu renderingu
-	HDC uchwytDC; // uchwyt prywatnego kontekstu urz¹dzenia GDI public:
+	HGLRC uchwytRC; 
+	HDC uchwytDC; 
 	bool UstalFormatPikseli(HDC uchwytDC) const;
 	bool InicjujWGL(HWND uchwytOkna);
 	void UsunWGL();
@@ -34,8 +34,8 @@ private:
 
 	unsigned int vao;
 	unsigned int vbo[3];
-	void InicjujBuforWerteksów();
-	void UsuñBuforWerteksów();
+	void InicjujBuforWerteksï¿½w();
+	void Usuï¿½BuforWerteksï¿½w();
 
 	unsigned int idProgramuShaderow;
 	static unsigned int KompilujShader(
